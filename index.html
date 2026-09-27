@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sponsoring – Abizeitung NKG 2027 (Version 3.3)</title>
+<style>
+body{font-family:Arial,sans-serif;background:#F7F1E5;margin:0;color:#2B2B2B}
+header{background:#1E3A66;color:#fff;padding:24px;text-align:center}
+.wrap{max-width:720px;margin:auto;padding:24px}
+.card{background:#fff;padding:18px;border-radius:12px;margin-bottom:16px;border:1px solid #ddd}
+label{display:block;margin:10px 0}
+.total{background:#1E3A66;color:#fff;padding:16px;border-radius:12px;font-size:22px;font-weight:bold}
+button{width:100%;padding:16px;border:none;border-radius:30px;background:#E3A13E;color:#1E3A66;font-weight:bold;font-size:16px;cursor:pointer}
+input,textarea{width:100%;padding:10px;margin-top:6px;border-radius:8px;border:1px solid #ccc}
+</style>
+</head>
+<body>
+<header><h1>Abizeitung Sponsoring 2027</h1><p>Nicolaus-Kistner-Gymnasium Mosbach</p></header>
+
+<div class="wrap">
+<form id="sponsorForm" action="https://formsubmit.co/markusjanich@icloud.com" method="POST" enctype="multipart/form-data">
+
+<input type="hidden" name="_subject" value="Neue Sponsoring-Buchung – Abizeitung NKG 2027">
+<input type="hidden" name="_template" value="table">
+<input type="hidden" name="_autoresponse" value="Vielen Dank für Ihre Sponsoring-Buchung für die Abizeitung 2027 des Nicolaus-Kistner-Gymnasiums Mosbach. Wir haben Ihre Buchung erhalten und melden uns in den nächsten Tagen persönlich bei Ihnen.">
+<input type="hidden" name="_next" value="thanks.html">
+
+<div class="card">
+<h2>Werbeflächen</h2>
+
+<label><input type="checkbox" name="paket" value="Viertelseite (A6)" data-price="100"> Viertelseite (A6) – 100 €</label>
+<label><input type="checkbox" name="paket" value="Halbseite (A5)" data-price="140"> Halbseite (A5) – 140 €</label>
+<label><input type="checkbox" name="paket" value="Ganzseite (A4)" data-price="240"> Ganzseite (A4) – 240 €</label>
+<label><input type="checkbox" name="paket" value="Sonderseite – 2. Seite" data-price="280"> Sonderseite – 2. Seite – 280 €</label>
+<label><input type="checkbox" name="paket" value="Sonderseite – vorletzte Seite" data-price="280"> Sonderseite – vorletzte Seite – 280 €</label>
+
+<h2>Plakate</h2>
+
+<label><input type="checkbox" name="paket" value="Plakat A3" data-price="50"> Plakat A3 – 50 €</label>
+<label><input type="checkbox" name="paket" value="Plakat A2" data-price="85"> Plakat A2 – 85 €</label>
+<label><input type="checkbox" name="paket" value="Plakat A1" data-price="120"> Plakat A1 – 120 €</label>
+</div>
+
+<input type="hidden" name="Gewählte Pakete" id="selectedPackages">
+<input type="hidden" name="Gesamtsumme" id="totalPrice">
+
+<div class="card">
+<h2>Datei hochladen</h2>
+<input type="file" name="anzeige_datei" accept=".pdf,.jpg,.jpeg,.png" required>
+</div>
+
+<div class="card">
+<h2>Kontaktdaten</h2>
+<input type="text" name="firma" placeholder="Firmenname" required>
+<input type="text" name="ansprechpartner" placeholder="Ansprechpartner" required>
+<input type="email" name="email" placeholder="E-Mail-Adresse" required>
+<input type="tel" name="telefon" placeholder="Telefon (optional)">
+<textarea name="anmerkungen" placeholder="Anmerkungen (optional)"></textarea>
+</div>
+
+<div class="total" id="summary">Gesamtsumme: 0 €</div>
+
+<button type="submit">Sponsoring verbindlich buchen</button>
+</form>
+</div>
+
+<script>
+const boxes=document.querySelectorAll('input[name="paket"]');
+const summary=document.getElementById("summary");
+const selected=document.getElementById("selectedPackages");
+const totalField=document.getElementById("totalPrice");
+
+function updateSummary(){
+ let total=0;
+ let items=[];
+ boxes.forEach(cb=>{
+   if(cb.checked){
+     const price=Number(cb.dataset.price);
+     total+=price;
+     items.push(cb.value+" – "+price+" €");
+   }
+ });
+ summary.textContent="Gesamtsumme: "+total+" €";
+ selected.value=items.join(" | ");
+ totalField.value=total+" €";
+}
+boxes.forEach(cb=>cb.addEventListener("change",updateSummary));
+updateSummary();
+
+document.getElementById("sponsorForm").addEventListener("submit",e=>{
+ if([...boxes].every(cb=>!cb.checked)){
+   e.preventDefault();
+   alert("Bitte mindestens eine Werbefläche auswählen.");
+ }
+});
+</script>
+</body>
+</html>
